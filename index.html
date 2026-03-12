@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Việt Bếp VN - Suất Ăn Công Nghiệp An Toàn & Vệ Sinh</title>
+    <!-- Font chữ -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      /* CSS RESET & VARIABLES */
+      :root {
+        --primary-color: #d32f2f;
+        --secondary-color: #f57c00;
+        --text-color: #333;
+        --bg-light: #fdf5e6;
+        --white: #fff;
+        --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Be Vietnam Pro", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        color: var(--text-color);
+        background-color: var(--bg-light);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* PRELOADER (Màn hình chờ) */
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-light);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.6s ease;
+      }
+      .loader-icon {
+        font-size: 4rem;
+        color: var(--primary-color);
+        animation: bounce 1s infinite alternate;
+      }
+      .loader-text {
+        margin-top: 15px;
+        font-weight: bold;
+        color: var(--secondary-color);
+        letter-spacing: 2px;
+      }
+
+      /* SCROLL PROGRESS BAR (Thanh tiến trình cuộn) */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: linear-gradient(to right, var(--secondary-color), #ffeb3b);
+        z-index: 1001;
+        transition: width 0.1s;
+      }
+
+      /* HEADER */
+      header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        transition: var(--transition);
+      }
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+      }
+      .logo {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--primary-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.3s;
+      }
+      .logo:hover {
+        transform: scale(1.05);
+      }
+      .logo span {
+        color: var(--secondary-color);
+        font-size: 14px;
+        display: block;
+        font-weight: 600;
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 600;
+        position: relative;
+        transition: var(--transition);
+        padding: 5px 0;
+      }
+
+      /* Hiệu ứng gạch chân khi hover menu */
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 3px;
+        background: var(--primary-color);
+        bottom: 0;
+        left: 0;
+        transition: width 0.3s ease;
+        border-radius: 2px;
+      }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+      .nav-links a:hover {
+        color: var(--primary-color);
+      }
+
+      /* Hiệu ứng lướt sáng cho Nút bấm */
+      .btn {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: var(--transition);
+        box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+        z-index: 1;
+      }
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.4) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transform: skewX(-25deg);
+        transition: 0.6s;
+        z-index: -1;
+      }
+      .btn:hover::before {
+        left: 150%;
+      }
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(211, 47, 47, 0.5);
+        color: #fff;
+      }
+
+      /* HERO SECTION */
+      .hero {
+        position: relative;
+        height: 100vh;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
+          url("images/tru-so.jpg") center/cover fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--white);
+        padding: 0 20px;
+        overflow: hidden;
+      }
+
+      /* Floating Icons trong Hero */
+      .floating-icon {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.15);
+        z-index: 0;
+        animation: float 6s ease-in-out infinite;
+      }
+      .icon-1 {
+        top: 20%;
+        left: 10%;
+        font-size: 5rem;
+        animation-delay: 0s;
+      }
+      .icon-2 {
+        top: 60%;
+        right: 15%;
+        font-size: 6rem;
+        animation-delay: 2s;
+      }
+      .icon-3 {
+        bottom: 20%;
+        left: 20%;
+        font-size: 4rem;
+        animation-delay: 4s;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+      .hero-content h1 {
+        font-size: 4rem;
+        margin-bottom: 10px;
+        animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      }
+      .hero-content h2 {
+        font-size: 1.8rem;
+        color: #ffeb3b;
+        margin-bottom: 20px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        animation: slideUp 1s ease forwards 0.3s;
+        opacity: 0;
+      }
+      .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 35px;
+        max-width: 800px;
+        margin-inline: auto;
+        animation: fadeIn 1s ease forwards 0.6s;
+        opacity: 0;
+        line-height: 1.8;
+      }
+      .hero-btn-wrapper {
+        animation: slideUp 1s ease forwards 0.9s;
+        opacity: 0;
+      }
+
+      /* SECTION TITLES */
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 50px;
+        position: relative;
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+      .section-title::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        background-color: var(--secondary-color);
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+        transition: width 0.3s;
+      }
+      .section-title:hover::after {
+        width: 120px;
+      }
+
+      /* MENU SECTION */
+      .services {
+        padding: 100px 20px;
+        background: url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23f57c00" fill-opacity="0.05" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E');
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+      }
+      .service-card {
+        background: var(--white);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition:
+          transform 0.4s,
+          box-shadow 0.4s;
+        border-top: 6px solid var(--primary-color);
+        position: relative;
+      }
+
+      .service-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 20px 40px rgba(211, 47, 47, 0.15);
+      }
+      .img-wrapper {
+        overflow: hidden;
+      }
+      .service-img {
+        height: 240px;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .service-card:hover .service-img {
+        transform: scale(1.1) rotate(2deg);
+      }
+
+      .service-content {
+        padding: 30px 25px;
+        position: relative;
+      }
+      .price-tag {
+        position: absolute;
+        top: -20px;
+        right: 20px;
+        background: var(--secondary-color);
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 10px rgba(245, 124, 0, 0.4);
+        border: 2px solid #fff;
+      }
+      .service-content h3 {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        border-bottom: 2px dashed #eee;
+        padding-bottom: 15px;
+      }
+      .service-content ul {
+        list-style: none;
+        margin-bottom: 20px;
+      }
+      .service-content ul li {
+        margin-bottom: 12px;
+        padding-left: 30px;
+        position: relative;
+        font-weight: 600;
+        color: #444;
+      }
+      .service-content ul li::before {
+        content: "\f00c";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: #4caf50;
+        position: absolute;
+        left: 0;
+        font-size: 1.1rem;
+      }
+      .note {
+        font-size: 0.95rem;
+        color: #666;
+        font-style: italic;
+        background: #fff9c4;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid var(--secondary-color);
+      }
+
+      /* GALLERY SECTION */
+      .gallery {
+        padding: 100px 20px;
+        background: #fff;
+      }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+        display: block;
+      }
+
+      /* Hiệu ứng Overlay đỏ khi trỏ chuột vào hình */
+      .gallery-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(211, 47, 47, 0.8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: all 0.4s ease;
+      }
+      .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+      }
+      .gallery-item:hover img {
+        transform: scale(1.15);
+      }
+      .gallery-overlay i {
+        color: #fff;
+        font-size: 3rem;
+        transform: translateY(20px);
+        transition: 0.4s ease;
+      }
+      .gallery-overlay p {
+        color: #fff;
+        font-weight: bold;
+        margin-top: 10px;
+        transform: translateY(20px);
+        transition: 0.4s ease;
+        font-size: 1.2rem;
+      }
+      .gallery-item:hover .gallery-overlay i,
+      .gallery-item:hover .gallery-overlay p {
+        transform: translateY(0);
+      }
+
+      /* STATS SECTION */
+      .stats {
+        background: linear-gradient(135deg, var(--primary-color), #b71c1c);
+        color: var(--white);
+        padding: 80px 20px;
+        text-align: center;
+        position: relative;
+      }
+      .stats::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("https://www.transparenttextures.com/patterns/food.png");
+        opacity: 0.1;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .stat-item {
+        padding: 30px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        transition: 0.3s;
+      }
+      .stat-item:hover {
+        transform: translateY(-10px);
+        background: rgba(0, 0, 0, 0.2);
+        border-color: #ffeb3b;
+      }
+      .stat-item h2 {
+        font-size: 3.5rem;
+        color: #ffeb3b;
+        margin-bottom: 10px;
+        font-weight: 800;
+      }
+      .stat-item p {
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+
+      /* FOOTER */
+      footer {
+        background: #1a1a1a;
+        color: #fff;
+        padding: 80px 20px 20px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        border-bottom: 1px solid #333;
+        padding-bottom: 40px;
+      }
+      .footer-col h3 {
+        color: var(--secondary-color);
+        margin-bottom: 25px;
+        text-transform: uppercase;
+        font-weight: 800;
+        font-size: 1.4rem;
+      }
+      .footer-col p {
+        color: #bbb;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .footer-col i {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        margin-top: 3px;
+      }
+      .cert-box {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 15px;
+        border-left: 5px solid #4caf50;
+        transition: 0.3s;
+      }
+      .cert-box:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+      .copyright {
+        text-align: center;
+        padding-top: 25px;
+        color: #777;
+        font-size: 0.95rem;
+      }
+
+      /* ANIMATIONS (Hiệu ứng cuộn) */
+      .reveal {
+        opacity: 0;
+        transform: translateY(60px);
+        transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Độ trễ xuất hiện để tạo cảm giác nối tiếp */
+      .delay-1 {
+        transition-delay: 0.1s;
+      }
+      .delay-2 {
+        transition-delay: 0.3s;
+      }
+      .delay-3 {
+        transition-delay: 0.5s;
+      }
+      .delay-4 {
+        transition-delay: 0.7s;
+      }
+
+      @keyframes popIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-25px) rotate(15deg);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+      @keyframes bounce {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .hero-content h1 {
+          font-size: 2.5rem;
+        }
+        .hero-content h2 {
+          font-size: 1.2rem;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        .floating-icon {
+          display: none;
+        } /* Ẩn icon lơ lửng trên mobile cho gọn */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Màn hình Preloader -->
+    <div id="preloader">
+      <i class="fa-solid fa-bowl-rice loader-icon"></i>
+      <div class="loader-text">Đang chuẩn bị món ngon...</div>
+    </div>
+
+    <!-- Thanh tiến trình cuộn -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Header -->
+    <header id="header">
+      <div class="nav-container">
+        <a href="#" class="logo">
+          <i
+            class="fa-solid fa-bell-concierge fa-bounce"
+            style="--fa-animation-iteration-count: 2"
+          ></i>
+          <div>
+            VIỆT BẾP VN
+            <span>越南越厨有限公司</span>
+          </div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#home">Trang chủ</a></li>
+          <li><a href="#menu">Thực Đơn</a></li>
+          <li><a href="#process">Quy trình</a></li>
+          <li><a href="#contact">Liên hệ</a></li>
+        </ul>
+        <a href="tel:0335258510" class="btn"
+          ><i class="fa-solid fa-phone-volume fa-shake"></i> 033 5258 510</a
+        >
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="floating-icon icon-1">
+        <i class="fa-solid fa-utensils"></i>
+      </div>
+      <div class="floating-icon icon-2"><i class="fa-solid fa-leaf"></i></div>
+      <div class="floating-icon icon-3">
+        <i class="fa-solid fa-bowl-food"></i>
+      </div>
+
+      <div class="hero-content">
+        <h1>Việt Bếp VN</h1>
+        <h2>
+          <i class="fa-solid fa-star"></i> NGON & SỨC KHỎE!
+          <i class="fa-solid fa-star"></i>
+        </h2>
+        <p>
+          Sử dụng nguyên liệu đạt chuẩn, đảm bảo chất lượng sản phẩm. Chuyên
+          cung cấp suất ăn công nghiệp an toàn vệ sinh với quy trình đóng gói
+          khép kín hiện đại.
+        </p>
+        <div class="hero-btn-wrapper">
+          <a
+            href="#menu"
+            class="btn"
+            style="
+              background-color: var(--secondary-color);
+              font-size: 1.1rem;
+              padding: 15px 40px;
+            "
+          >
+            <i class="fa-solid fa-book-open"></i> Xem Bảng Giá
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="services">
+      <div class="container">
+        <h2 class="section-title reveal">Thực Đơn Đa Dạng (菜单)</h2>
+        <p
+          class="reveal"
+          style="
+            text-align: center;
+            margin-bottom: 50px;
+            color: #555;
+            font-size: 1.1rem;
+          "
+        >
+          (Giá trên đã bao gồm phí vận chuyển, chưa bao gồm thuế VAT)
+        </p>
+
+        <div class="service-grid">
+          <!-- Cơm Việt -->
+          <div class="service-card reveal delay-1">
+            <div class="img-wrapper">
+              <img
+                src="images/com-viet.jpg"
+                alt="Cơm Việt"
+                class="service-img"
+              />
+            </div>
+            <div class="service-content">
+              <div class="price-tag">25k - 30k</div>
+              <h3>
+                CƠM VIỆT & CHAY<br /><small
+                  style="color: #888; font-size: 1rem; font-weight: 500"
+                  >越餐 / 素餐</small
+                >
+              </h3>
+              <ul>
+                <li>1 món chính (道主菜)</li>
+                <li>1 món phụ (道配菜)</li>
+                <li>1 món rau (道蔬菜)</li>
+                <li>Cơm trắng & 1 phần canh</li>
+              </ul>
+              <div class="note">
+                <i
+                  class="fa-solid fa-gift"
+                  style="color: var(--primary-color)"
+                ></i>
+                Suất 30.000đ kèm theo sữa, sữa chua hoặc trái cây tùy yêu cầu.
+              </div>
+            </div>
+          </div>
+
+          <!-- Món Nước -->
+          <div class="service-card reveal delay-2">
+            <div class="img-wrapper">
+              <img
+                src="images/mon-nuoc.jpg"
+                alt="Món Nước"
+                class="service-img"
+              />
+            </div>
+            <div class="service-content">
+              <div class="price-tag">25.000đ</div>
+              <h3>
+                MÓN NƯỚC<br /><small
+                  style="color: #888; font-size: 1rem; font-weight: 500"
+                  >汤粉</small
+                >
+              </h3>
+              <ul>
+                <li>Hủ tiếu xương / Hủ tiếu chay</li>
+                <li>Bún mọc / Bún măng gà / Thái</li>
+                <li>Phở gà / Nui thịt / Bánh canh</li>
+                <li>Bún thịt xào / Bún chay</li>
+              </ul>
+              <div class="note">
+                <i
+                  class="fa-solid fa-circle-info"
+                  style="color: var(--primary-color)"
+                ></i>
+                Không ăn cơm có thể đổi sang: 1 bịch sữa + 1 ly mì.
+              </div>
+            </div>
+          </div>
+
+          <!-- Cơm Trung -->
+          <div class="service-card reveal delay-3">
+            <div class="img-wrapper">
+              <img
+                src="images/com-trung.jpg"
+                alt="Cơm Trung"
+                class="service-img"
+              />
+            </div>
+            <div class="service-content">
+              <div class="price-tag">50k - 60k</div>
+              <h3>
+                CƠM TRUNG CAO CẤP<br /><small
+                  style="color: #888; font-size: 1rem; font-weight: 500"
+                  >中餐</small
+                >
+              </h3>
+              <ul>
+                <li>1 món chính (道大荤)</li>
+                <li>1 món phụ (道小荤)</li>
+                <li>1 món rau (道蔬菜)</li>
+                <li>Cơm trắng & Nửa quả trứng</li>
+              </ul>
+              <div class="note">
+                <i
+                  class="fa-solid fa-mug-hot"
+                  style="color: var(--primary-color)"
+                ></i>
+                Suất 60.000đ có thêm 1 phần canh nóng (份汤).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery / Quy trình -->
+    <section id="process" class="gallery">
+      <div class="container">
+        <h2 class="section-title reveal">Quy Trình Khép Kín</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item reveal delay-1">
+            <img src="images/so-che.jpg" alt="Sơ chế rau củ" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-hands-bubbles"></i>
+              <p>Sơ chế vệ sinh</p>
+            </div>
+          </div>
+          <div class="gallery-item reveal delay-2">
+            <img src="images/che-bien.jpg" alt="Thức ăn sau chế biến" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-fire-burner"></i>
+              <p>Chế biến an toàn</p>
+            </div>
+          </div>
+          <div class="gallery-item reveal delay-3">
+            <img src="images/day-chuyen.jpg" alt="Dây chuyền chia suất ăn" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-people-carry-box"></i>
+              <p>Dây chuyền hiện đại</p>
+            </div>
+          </div>
+          <div class="gallery-item reveal delay-4">
+            <img src="images/dong-goi.jpg" alt="Máy đóng màng co" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-box-open"></i>
+              <p>Đóng gói tự động</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+      <div class="stats-grid reveal">
+        <div class="stat-item">
+          <h2 class="counter" data-target="2500">0</h2>
+          <p>Năng lực (Suất/Lần)</p>
+        </div>
+        <div class="stat-item">
+          <h2 class="counter" data-target="100">0</h2>
+          <p>% Đạt chuẩn nguyên liệu</p>
+        </div>
+        <div class="stat-item">
+          <h2>
+            <i
+              class="fa-solid fa-certificate fa-beat-fade"
+              style="font-size: 3rem; margin-bottom: 5px; color: #ffeb3b"
+            ></i>
+          </h2>
+          <p>Chứng nhận VSATTP</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+      <div class="footer-grid">
+        <div class="footer-col reveal delay-1">
+          <h3>VIỆT BẾP VN</h3>
+          <p style="color: #fff; font-weight: bold; font-size: 1.1rem">
+            CÔNG TY TNHH VIỆT BẾP VN
+          </p>
+          <p style="color: #fff; font-size: 1rem">越南越厨有限公司</p>
+          <p style="margin-top: 15px">
+            Chuyên cung cấp suất ăn công nghiệp An toàn - Uy tín. Khẩu hiệu của
+            chúng tôi: <br /><em>"Việt Bếp: Ngon & Sức Khỏe!"</em>
+          </p>
+        </div>
+        <div class="footer-col reveal delay-2">
+          <h3>Thông Tin Liên Hệ</h3>
+          <p>
+            <i class="fa-solid fa-location-dot"></i>
+            <span
+              >Lô số 22, đường số 5, KCN Tân Đức, Xã Đức Hoà, Tỉnh Tây
+              Ninh</span
+            >
+          </p>
+          <p>
+            <i class="fa-solid fa-phone"></i>
+            <span>Hotline 1: 033 5258 510<br />Hotline 2: 082 6854 038</span>
+          </p>
+          <p>
+            <i class="fa-solid fa-user-tie"></i>
+            <span>Đại diện: Nguyễn Thị Kiều Trúc</span>
+          </p>
+        </div>
+        <div class="footer-col reveal delay-3">
+          <h3>Giấy Phép & Pháp Lý</h3>
+          <div class="cert-box">
+            <p
+              style="
+                color: #4caf50;
+                font-weight: 800;
+                margin-bottom: 5px;
+                font-size: 1.1rem;
+              "
+            >
+              <i class="fa-solid fa-shield-check"></i> Đủ điều kiện ATTP
+            </p>
+            <p style="font-size: 0.95rem; margin-bottom: 5px">
+              Cấp bởi: Sở Y Tế Tỉnh Tây Ninh
+            </p>
+            <p style="font-size: 0.95rem; margin-bottom: 0">
+              Loại hình: Kinh doanh dịch vụ ăn uống (Cung cấp suất ăn sẵn)
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>
+          &copy; 2024 CÔNG TY TNHH VIỆT BẾP VN (越南越厨有限公司). Thiết kế bởi
+          chuyên gia.
+        </p>
+      </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+      // 1. Tắt Preloader khi trang tải xong
+      window.addEventListener("load", () => {
+        const preloader = document.getElementById("preloader");
+        setTimeout(() => {
+          preloader.style.opacity = "0";
+          setTimeout(() => {
+            preloader.style.display = "none";
+          }, 600);
+        }, 500); // Đợi 0.5s rồi mới mờ đi cho đẹp
+      });
+
+      // 2. Thanh tiến trình cuộn trang
+      window.addEventListener("scroll", () => {
+        const winScroll =
+          document.body.scrollTop || document.documentElement.scrollTop;
+        const height =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("scroll-progress").style.width = scrolled + "%";
+      });
+
+      // 3. Scroll Reveal Animation (Xuất hiện mượt mà)
+      function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+          var windowHeight = window.innerHeight;
+          var elementTop = reveals[i].getBoundingClientRect().top;
+          if (elementTop < windowHeight - 80) {
+            reveals[i].classList.add("active");
+          }
+        }
+      }
+      window.addEventListener("scroll", reveal);
+      reveal(); // Gọi 1 lần khi mới load
+
+      // 4. Header nhỏ lại và có bóng khi cuộn
+      window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.style.padding = "5px 20px";
+          header.style.boxShadow = "0 5px 20px rgba(0,0,0,0.15)";
+        } else {
+          header.style.padding = "15px 20px";
+          header.style.boxShadow = "0 2px 15px rgba(0,0,0,0.1)";
+        }
+      });
+
+      // 5. Hiệu ứng nhảy số (Counter) - Đã sửa lỗi
+      const statsSection = document.querySelector(".stats");
+      const counters = document.querySelectorAll(".counter");
+      let hasCounted = false; // Biến kiểm tra xem đã chạy chưa
+
+      window.addEventListener("scroll", () => {
+        // Nếu đã đếm số rồi thì bỏ qua không chạy lại nữa
+        if (hasCounted) return;
+
+        const statsTop = statsSection.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+
+        // Khi phần chứa số (stats) xuất hiện trên màn hình
+        if (statsTop < windowHeight - 100) {
+          hasCounted = true; // Đánh dấu là đã chạy
+
+          counters.forEach((counter) => {
+            const target = +counter.getAttribute("data-target");
+            const updateCount = () => {
+              const count = +counter.innerText;
+              const inc = target / 50; // Chia nhỏ để nhảy mượt
+
+              if (count < target) {
+                counter.innerText = Math.ceil(count + inc);
+                setTimeout(updateCount, 30); // Tốc độ nhảy (30ms)
+              } else {
+                // Khi đạt mốc thì thêm dấu % hoặc +
+                counter.innerText = target + (target === 100 ? "%" : "+");
+              }
+            };
+            updateCount();
+          });
+        }
+      });
+      window.addEventListener("scroll", runCounter, { once: true });
+    </script>
+  </body>
+</html>
