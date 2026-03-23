@@ -1,184 +1,703 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Việt Bếp VN - Suất Ăn Công Nghiệp An Toàn & Vệ Sinh</title>
     <!-- Font chữ -->
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <!-- Icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
     <style>
-        /* CSS RESET & VARIABLES */
-        :root {
-            --primary-color: #d32f2f; 
-            --secondary-color: #f57c00; 
-            --text-color: #333;
-            --bg-light: #fdf5e6; 
-            --white: #fff;
-            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      /* CSS RESET & VARIABLES */
+      :root {
+        --primary-color: #d32f2f;
+        --secondary-color: #f57c00;
+        --text-color: #333;
+        --bg-light: #fdf5e6;
+        --white: #fff;
+        --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Be Vietnam Pro", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        color: var(--text-color);
+        background-color: var(--bg-light);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* PRELOADER */
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-light);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.6s ease;
+      }
+      .loader-icon {
+        font-size: 4rem;
+        color: var(--primary-color);
+        animation: bounce 1s infinite alternate;
+      }
+      .loader-text {
+        margin-top: 15px;
+        font-weight: bold;
+        color: var(--secondary-color);
+        letter-spacing: 2px;
+      }
+
+      /* SCROLL PROGRESS BAR */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: linear-gradient(to right, var(--secondary-color), #ffeb3b);
+        z-index: 1001;
+        transition: width 0.1s;
+      }
+
+      /* HEADER & LOGO */
+      header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        transition: var(--transition);
+      }
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+      }
+      .logo {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--primary-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.3s;
+      }
+      .logo img {
+        height: 50px;
+        width: auto;
+        object-fit: contain;
+        border-radius: 5px;
+      }
+      .logo:hover {
+        transform: scale(1.02);
+      }
+      .logo span {
+        color: var(--secondary-color);
+        font-size: 14px;
+        display: block;
+        font-weight: 600;
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 20px;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 600;
+        position: relative;
+        transition: var(--transition);
+        padding: 5px 0;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 3px;
+        background: var(--primary-color);
+        bottom: 0;
+        left: 0;
+        transition: width 0.3s ease;
+        border-radius: 2px;
+      }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+      .nav-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .btn {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: var(--transition);
+        box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+        z-index: 1;
+      }
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(211, 47, 47, 0.5);
+        color: #fff;
+      }
+
+      /* HERO SECTION */
+      .hero {
+        position: relative;
+        height: 100vh;
+        background: url("images/tru-so.jpg") center/cover fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 20px;
+        overflow: hidden;
+      }
+      .floating-icon {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.4);
+        z-index: 0;
+        animation: float 6s ease-in-out infinite;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      }
+      .icon-1 {
+        top: 20%;
+        left: 10%;
+        font-size: 5rem;
+        animation-delay: 0s;
+      }
+      .icon-2 {
+        top: 60%;
+        right: 15%;
+        font-size: 6rem;
+        animation-delay: 2s;
+      }
+      .icon-3 {
+        bottom: 20%;
+        left: 20%;
+        font-size: 4rem;
+        animation-delay: 4s;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        background: transparent;
+        padding: 20px;
+      }
+
+      .hero-content h1 {
+        font-size: 4.5rem;
+        margin-bottom: 10px;
+        animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        text-transform: uppercase;
+        color: var(--primary-color);
+        text-shadow:
+          2px 2px 0 #fff,
+          -2px -2px 0 #fff,
+          2px -2px 0 #fff,
+          -2px 2px 0 #fff,
+          4px 4px 10px rgba(0, 0, 0, 0.8);
+      }
+
+      .hero-content h2 {
+        font-size: 1.8rem;
+        color: #ffeb3b;
+        margin-bottom: 20px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        animation: slideUp 1s ease forwards 0.3s;
+        opacity: 0;
+        text-shadow:
+          2px 2px 8px rgba(0, 0, 0, 0.9),
+          -1px -1px 0 #000,
+          1px -1px 0 #000,
+          -1px 1px 0 #000,
+          1px 1px 0 #000;
+      }
+
+      .hero-content p {
+        font-size: 1.3rem;
+        margin-bottom: 35px;
+        max-width: 800px;
+        margin-inline: auto;
+        animation: fadeIn 1s ease forwards 0.6s;
+        opacity: 0;
+        line-height: 1.8;
+        font-weight: 800;
+        color: var(--secondary-color);
+        text-shadow:
+          1px 1px 0 #fff,
+          -1px -1px 0 #fff,
+          1px -1px 0 #fff,
+          -1px 1px 0 #fff,
+          3px 3px 8px rgba(0, 0, 0, 0.8);
+      }
+
+      /* SECTION TITLES */
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 50px;
+        position: relative;
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+      .section-title::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        background-color: var(--secondary-color);
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+        transition: width 0.3s;
+      }
+      .section-title:hover::after {
+        width: 120px;
+      }
+
+      /* MENU SECTION (Bảng giá) */
+      .services {
+        padding: 80px 20px;
+        background: url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23f57c00" fill-opacity="0.05" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E');
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+      }
+      .service-card {
+        background: var(--white);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition:
+          transform 0.4s,
+          box-shadow 0.4s;
+        border-top: 6px solid var(--primary-color);
+        position: relative;
+      }
+      .service-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 20px 40px rgba(211, 47, 47, 0.15);
+      }
+      .img-wrapper {
+        overflow: hidden;
+      }
+      .service-img {
+        height: 240px;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .service-card:hover .service-img {
+        transform: scale(1.1) rotate(2deg);
+      }
+      .service-content {
+        padding: 30px 25px;
+        position: relative;
+      }
+      .price-tag {
+        position: absolute;
+        top: -20px;
+        right: 20px;
+        background: var(--secondary-color);
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 10px rgba(245, 124, 0, 0.4);
+        border: 2px solid #fff;
+      }
+      .service-content h3 {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        border-bottom: 2px dashed #eee;
+        padding-bottom: 15px;
+      }
+      .service-content ul {
+        list-style: none;
+        margin-bottom: 20px;
+      }
+      .service-content ul li {
+        margin-bottom: 12px;
+        padding-left: 30px;
+        position: relative;
+        font-weight: 600;
+        color: #444;
+      }
+      .service-content ul li::before {
+        content: "\f00c";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: #4caf50;
+        position: absolute;
+        left: 0;
+        font-size: 1.1rem;
+      }
+      .note {
+        font-size: 0.95rem;
+        color: #666;
+        font-style: italic;
+        background: #fff9c4;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid var(--secondary-color);
+      }
+
+      /* THƯ VIỆN HÌNH ẢNH (Căn giữa hàng cuối) */
+      .food-gallery {
+        padding: 80px 20px;
+        background: #fff;
+      }
+      .category-title {
+        font-size: 1.8rem;
+        color: var(--secondary-color);
+        margin: 50px 0 20px;
+        text-align: left;
+        border-left: 5px solid var(--primary-color);
+        padding-left: 15px;
+        font-weight: 700;
+        background: #f9f9f9;
+        padding: 10px 15px;
+      }
+      .food-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+      .food-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        height: 220px;
+        width: 260px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        background: #eee;
+        transition: all 0.4s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+      .food-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.5s ease;
+        display: block;
+      }
+      .food-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 25px rgba(211, 47, 47, 0.2);
+        border-color: var(--primary-color);
+      }
+      .food-item:hover img {
+        transform: scale(1.15);
+      }
+
+      /* MODAL LIGHTBOX */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 10000;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .lightbox.active {
+        display: flex;
+        opacity: 1;
+      }
+      .lightbox img {
+        max-width: 90%;
+        max-height: 90vh;
+        border-radius: 10px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+        transform: scale(0.8);
+        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+      .lightbox.active img {
+        transform: scale(1);
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: white;
+        font-size: 45px;
+        cursor: pointer;
+        transition: 0.3s;
+        z-index: 10001;
+      }
+      .lightbox-close:hover {
+        color: var(--primary-color);
+        transform: rotate(90deg);
+      }
+
+      /* VIDEO DỌC */
+      .vertical-videos {
+        padding: 100px 20px;
+        background: var(--bg-light);
+      }
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .video-item {
+        background: #fff;
+        padding: 15px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: 0.4s;
+      }
+      .video-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+      .video-item h3 {
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+        text-transform: uppercase;
+      }
+      .video-item video {
+        width: 100%;
+        aspect-ratio: 9/16;
+        object-fit: cover;
+        border-radius: 12px;
+        background: #000;
+        outline: none;
+        border: 2px solid #eee;
+      }
+
+      /* STATS SECTION */
+      .stats {
+        background: linear-gradient(135deg, var(--primary-color), #b71c1c);
+        color: var(--white);
+        padding: 80px 20px;
+        text-align: center;
+        position: relative;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .stat-item {
+        padding: 30px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        transition: 0.3s;
+      }
+      .stat-item:hover {
+        transform: translateY(-10px);
+        border-color: #ffeb3b;
+      }
+      .stat-item h2 {
+        font-size: 3.5rem;
+        color: #ffeb3b;
+        margin-bottom: 10px;
+        font-weight: 800;
+      }
+      .stat-item p {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      /* FOOTER */
+      footer {
+        background: #1a1a1a;
+        color: #fff;
+        padding: 80px 20px 20px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        border-bottom: 1px solid #333;
+        padding-bottom: 40px;
+      }
+      .footer-col h3 {
+        color: var(--secondary-color);
+        margin-bottom: 25px;
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+      .footer-col p {
+        color: #bbb;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .footer-col i {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        margin-top: 3px;
+      }
+      .copyright {
+        text-align: center;
+        padding-top: 25px;
+        color: #777;
+        font-size: 0.95rem;
+      }
+
+      /* ANIMATIONS */
+      .reveal {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease-out;
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .delay-1 {
+        transition-delay: 0.1s;
+      }
+      .delay-2 {
+        transition-delay: 0.2s;
+      }
+      .delay-3 {
+        transition-delay: 0.3s;
+      }
+      @keyframes popIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.8);
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Be Vietnam Pro', sans-serif; }
-        html { scroll-behavior: smooth; }
-        body { color: var(--text-color); background-color: var(--bg-light); line-height: 1.6; overflow-x: hidden; }
-
-        /* PRELOADER */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-light); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.6s ease; }
-        .loader-icon { font-size: 4rem; color: var(--primary-color); animation: bounce 1s infinite alternate; }
-        .loader-text { margin-top: 15px; font-weight: bold; color: var(--secondary-color); letter-spacing: 2px;}
-
-        /* SCROLL PROGRESS BAR */
-        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(to right, var(--secondary-color), #ffeb3b); z-index: 1001; transition: width 0.1s; }
-
-        /* HEADER & LOGO */
-        header { position: fixed; width: 100%; top: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 15px rgba(0,0,0,0.1); z-index: 1000; transition: var(--transition); }
-        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
-        .logo { font-size: 24px; font-weight: 800; color: var(--primary-color); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: transform 0.3s;}
-        .logo img { height: 50px; width: auto; object-fit: contain; border-radius: 5px; }
-        .logo:hover { transform: scale(1.02); }
-        .logo span { color: var(--secondary-color); font-size: 14px; display: block; font-weight: 600;}
-        .nav-links { display: flex; list-style: none; gap: 20px; }
-        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 600; position: relative; transition: var(--transition); padding: 5px 0;}
-        .nav-links a::after { content: ''; position: absolute; width: 0; height: 3px; background: var(--primary-color); bottom: 0; left: 0; transition: width 0.3s ease; border-radius: 2px;}
-        .nav-links a:hover::after { width: 100%; }
-        .nav-links a:hover { color: var(--primary-color); }
-
-        .btn { position: relative; overflow: hidden; display: inline-block; background-color: var(--primary-color); color: var(--white); padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: var(--transition); box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3); z-index: 1; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(211, 47, 47, 0.5); color: #fff; }
-
-        /* HERO SECTION */
-        .hero { position: relative; height: 100vh; background: url('images/tru-so.jpg') center/cover fixed; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 20px; overflow: hidden;}
-        .floating-icon { position: absolute; color: rgba(255, 255, 255, 0.4); z-index: 0; animation: float 6s ease-in-out infinite; text-shadow: 2px 2px 5px rgba(0,0,0,0.3);}
-        .icon-1 { top: 20%; left: 10%; font-size: 5rem; animation-delay: 0s; }
-        .icon-2 { top: 60%; right: 15%; font-size: 6rem; animation-delay: 2s; }
-        .icon-3 { bottom: 20%; left: 20%; font-size: 4rem; animation-delay: 4s; }
-
-        .hero-content { position: relative; z-index: 2; background: transparent; padding: 20px;}
-        
-        .hero-content h1 { 
-            font-size: 4.5rem; 
-            margin-bottom: 10px; 
-            animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
-            text-transform: uppercase; 
-            color: var(--primary-color); 
-            text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 4px 4px 10px rgba(0,0,0,0.8);
+        100% {
+          opacity: 1;
+          transform: scale(1);
         }
-        
-        .hero-content h2 { 
-            font-size: 1.8rem; 
-            color: #ffeb3b; 
-            margin-bottom: 20px; 
-            font-weight: 800; 
-            letter-spacing: 3px; 
-            animation: slideUp 1s ease forwards 0.3s; 
-            opacity: 0; 
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.9), -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
         }
-
-        .hero-content p { 
-            font-size: 1.3rem; 
-            margin-bottom: 35px; 
-            max-width: 800px; 
-            margin-inline: auto; 
-            animation: fadeIn 1s ease forwards 0.6s; 
-            opacity: 0; 
-            line-height: 1.8; 
-            font-weight: 800; 
-            color: var(--secondary-color); 
-            text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 3px 3px 8px rgba(0,0,0,0.8);
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-
-        /* SECTION TITLES */
-        .section-title { text-align: center; font-size: 2.5rem; color: var(--primary-color); margin-bottom: 50px; position: relative; text-transform: uppercase; font-weight: 800;}
-        .section-title::after { content: ''; position: absolute; width: 60px; height: 4px; background-color: var(--secondary-color); bottom: -15px; left: 50%; transform: translateX(-50%); border-radius: 2px; transition: width 0.3s;}
-        .section-title:hover::after { width: 120px; }
-
-        /* MENU SECTION (Bảng giá) */
-        .services { padding: 80px 20px; background: url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23f57c00" fill-opacity="0.05" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E'); }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .service-card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.4s, box-shadow 0.4s; border-top: 6px solid var(--primary-color); position: relative;}
-        .service-card:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(211, 47, 47, 0.15); }
-        .img-wrapper { overflow: hidden; }
-        .service-img { height: 240px; width: 100%; object-fit: cover; transition: transform 0.6s ease; }
-        .service-card:hover .service-img { transform: scale(1.1) rotate(2deg); }
-        .service-content { padding: 30px 25px; position: relative;}
-        .price-tag { position: absolute; top: -20px; right: 20px; background: var(--secondary-color); color: #fff; padding: 8px 20px; border-radius: 30px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(245, 124, 0, 0.4); border: 2px solid #fff;}
-        .service-content h3 { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 20px; border-bottom: 2px dashed #eee; padding-bottom: 15px;}
-        .service-content ul { list-style: none; margin-bottom: 20px;}
-        .service-content ul li { margin-bottom: 12px; padding-left: 30px; position: relative; font-weight: 600; color: #444;}
-        .service-content ul li::before { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #4caf50; position: absolute; left: 0; font-size: 1.1rem;}
-        .note { font-size: 0.95rem; color: #666; font-style: italic; background: #fff9c4; padding: 15px; border-radius: 8px; border-left: 4px solid var(--secondary-color);}
-
-        /* THƯ VIỆN HÌNH ẢNH (Căn giữa hàng cuối) */
-        .food-gallery { padding: 80px 20px; background: #fff; }
-        .category-title { font-size: 1.8rem; color: var(--secondary-color); margin: 50px 0 20px; text-align: left; border-left: 5px solid var(--primary-color); padding-left: 15px; font-weight: 700; background: #f9f9f9; padding: 10px 15px;}
-        .food-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .food-item { position: relative; overflow: hidden; border-radius: 12px; height: 220px; width: 260px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); background: #eee; transition: all 0.4s ease; cursor: pointer; border: 2px solid transparent; }
-        .food-item img { width: 100%; height: 100%; object-fit: cover; transition: all 0.5s ease; display: block; }
-        .food-item:hover { transform: translateY(-8px); box-shadow: 0 15px 25px rgba(211, 47, 47, 0.2); border-color: var(--primary-color); }
-        .food-item:hover img { transform: scale(1.15); }
-
-        /* MODAL LIGHTBOX */
-        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
-        .lightbox.active { display: flex; opacity: 1; }
-        .lightbox img { max-width: 90%; max-height: 90vh; border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,0.8); transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .lightbox.active img { transform: scale(1); }
-        .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 45px; cursor: pointer; transition: 0.3s; z-index: 10001; }
-        .lightbox-close:hover { color: var(--primary-color); transform: rotate(90deg); }
-
-        /* VIDEO DỌC */
-        .vertical-videos { padding: 100px 20px; background: var(--bg-light); }
-        .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1000px; margin: 0 auto; }
-        .video-item { background: #fff; padding: 15px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; transition: 0.4s;}
-        .video-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15);}
-        .video-item h3 { color: var(--primary-color); margin-bottom: 15px; font-size: 1.3rem; text-transform: uppercase;}
-        .video-item video { width: 100%; aspect-ratio: 9/16; object-fit: cover; border-radius: 12px; background: #000; outline: none; border: 2px solid #eee;}
-
-        /* STATS SECTION */
-        .stats { background: linear-gradient(135deg, var(--primary-color), #b71c1c); color: var(--white); padding: 80px 20px; text-align: center; position: relative;}
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; position: relative; z-index: 1;}
-        .stat-item { padding: 30px; border: 2px solid rgba(255,255,255,0.2); border-radius: 15px; background: rgba(0,0,0,0.1); backdrop-filter: blur(5px); transition: 0.3s;}
-        .stat-item:hover { transform: translateY(-10px); border-color: #ffeb3b;}
-        .stat-item h2 { font-size: 3.5rem; color: #ffeb3b; margin-bottom: 10px; font-weight: 800;}
-        .stat-item p { font-size: 1.1rem; font-weight: 600;}
-
-        /* FOOTER */
-        footer { background: #1a1a1a; color: #fff; padding: 80px 20px 20px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid #333; padding-bottom: 40px; }
-        .footer-col h3 { color: var(--secondary-color); margin-bottom: 25px; text-transform: uppercase; font-weight: 800;}
-        .footer-col p { color: #bbb; margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px;}
-        .footer-col i { color: var(--primary-color); font-size: 1.2rem; margin-top: 3px;}
-        .copyright { text-align: center; padding-top: 25px; color: #777; font-size: 0.95rem;}
-
-        /* ANIMATIONS */
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
-        @keyframes popIn { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes float { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-25px) rotate(15deg); } 100% { transform: translateY(0) rotate(0deg); } }
-        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero-content h1 { font-size: 2.8rem; }
-            .video-grid { grid-template-columns: 1fr; max-width: 350px;} 
-            .stats-grid { grid-template-columns: 1fr; }
-            .floating-icon { display: none; }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-25px) rotate(15deg);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+      @keyframes bounce {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-20px);
+        }
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .hero-content h1 {
+          font-size: 2.8rem;
+        }
+        .video-grid {
+          grid-template-columns: 1fr;
+          max-width: 350px;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        .floating-icon {
+          display: none;
+        }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- Màn hình Preloader -->
     <div id="preloader">
-        <i class="fa-solid fa-bowl-rice loader-icon"></i>
-        <div class="loader-text">Đang chuẩn bị món ngon...</div>
+      <i class="fa-solid fa-bowl-rice loader-icon"></i>
+      <div class="loader-text">Đang chuẩn bị món ngon...</div>
     </div>
 
     <!-- Thanh tiến trình -->
@@ -186,373 +705,518 @@
 
     <!-- Header -->
     <header id="header">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="images/logo.png" alt="Logo Việt Bếp">
-                <div>
-                    VIỆT BẾP VN
-                    <span>越南越厨有限公司</span>
-                </div>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#home">Trang chủ</a></li>
-                <li><a href="#menu">Thực Đơn</a></li>
-                <li><a href="#food-gallery">Hình Ảnh</a></li>
-                <li><a href="#vertical-videos">Video</a></li>
-            </ul>
-            <a href="tel:0825058557" class="btn"><i class="fa-solid fa-phone-volume fa-shake"></i> 0825 058 557</a>
-        </div>
+      <div class="nav-container">
+        <a href="#" class="logo">
+          <img src="images/logo.png" alt="Logo Việt Bếp" />
+          <div>
+            VIỆT BẾP VN
+            <span>越南越厨有限公司</span>
+          </div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#home">Trang chủ</a></li>
+          <li><a href="#menu">Thực Đơn</a></li>
+          <li><a href="#food-gallery">Hình Ảnh</a></li>
+          <li><a href="#vertical-videos">Video</a></li>
+        </ul>
+        <a href="tel:0825058557" class="btn"
+          ><i class="fa-solid fa-phone-volume fa-shake"></i> 0825 058 557</a
+        >
+      </div>
     </header>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="floating-icon icon-1"><i class="fa-solid fa-utensils"></i></div>
-        <div class="floating-icon icon-2"><i class="fa-solid fa-leaf"></i></div>
-        <div class="floating-icon icon-3"><i class="fa-solid fa-bowl-food"></i></div>
-        
-        <div class="hero-content">
-            <h1>Việt Bếp VN</h1>
-            <h2><i class="fa-solid fa-star"></i> NGON & SỨC KHỎE! <i class="fa-solid fa-star"></i></h2>
-            <p>Sử dụng nguyên liệu đạt chuẩn, đảm bảo chất lượng sản phẩm. Chuyên cung cấp suất ăn công nghiệp an toàn vệ sinh với quy trình đóng gói khép kín hiện đại.</p>
-        </div>
+      <div class="floating-icon icon-1">
+        <i class="fa-solid fa-utensils"></i>
+      </div>
+      <div class="floating-icon icon-2"><i class="fa-solid fa-leaf"></i></div>
+      <div class="floating-icon icon-3">
+        <i class="fa-solid fa-bowl-food"></i>
+      </div>
+
+      <div class="hero-content">
+        <h1>Việt Bếp VN</h1>
+        <h2>
+          <i class="fa-solid fa-star"></i> NGON & SỨC KHỎE!
+          <i class="fa-solid fa-star"></i>
+        </h2>
+        <p>
+          Sử dụng nguyên liệu đạt chuẩn, đảm bảo chất lượng sản phẩm. Chuyên
+          cung cấp suất ăn công nghiệp an toàn vệ sinh với quy trình đóng gói
+          khép kín hiện đại.
+        </p>
+      </div>
     </section>
 
     <!-- MENU SECTION -->
     <section id="menu" class="services">
-        <div class="container">
-            <h2 class="section-title reveal">Bảng Giá Thực Đơn</h2>
-            <p class="reveal" style="text-align: center; margin-bottom: 50px; color: #555;">(Giá trên đã bao gồm phí vận chuyển, chưa bao gồm thuế VAT)</p>
-            
-            <div class="service-grid">
-                <!-- Cơm Việt -->
-                <div class="service-card reveal delay-1">
-                    <div class="img-wrapper">
-                        <img src="images/com-viet.jpg" alt="Cơm Việt" class="service-img" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
-                    </div>
-                    <div class="service-content">
-                        <div class="price-tag">25k - 30k</div>
-                        <h3>CƠM VIỆT & CHAY<br><small style="color:#888;">越餐 / 素餐</small></h3>
-                        <ul>
-                            <li>1 món chính (道主菜)</li>
-                            <li>1 món phụ (道配菜)</li>
-                            <li>1 món rau (道蔬菜)</li>
-                            <li>Cơm trắng & 1 phần canh</li>
-                        </ul>
-                        <div class="note"><i class="fa-solid fa-gift" style="color: var(--primary-color);"></i> Suất 30.000đ kèm sữa/trái cây.</div>
-                    </div>
-                </div>
+      <div class="container">
+        <h2 class="section-title reveal">Bảng Giá Thực Đơn</h2>
+        <p
+          class="reveal"
+          style="text-align: center; margin-bottom: 50px; color: #555"
+        >
+          (Giá trên đã bao gồm phí vận chuyển, chưa bao gồm thuế VAT)
+        </p>
 
-                <!-- Món Nước -->
-                <div class="service-card reveal delay-2">
-                    <div class="img-wrapper">
-                        <img src="images/mon-nuoc.jpg" alt="Món Nước" class="service-img" onerror="this.src='https://images.unsplash.com/photo-1555126634-323283e090f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
-                    </div>
-                    <div class="service-content">
-                        <div class="price-tag">25.000đ</div>
-                        <h3>MÓN NƯỚC<br><small style="color:#888;">汤粉</small></h3>
-                        <ul>
-                            <li>Hủ tiếu xương / chay</li>
-                            <li>Bún mọc / măng gà / Thái</li>
-                            <li>Phở gà / Nui / Bánh canh</li>
-                            <li>Bún thịt xào / Bún chay</li>
-                        </ul>
-                        <div class="note"><i class="fa-solid fa-circle-info" style="color: var(--primary-color);"></i> Có thể đổi: 1 bịch sữa + 1 ly mì.</div>
-                    </div>
-                </div>
-
-                <!-- Cơm Trung -->
-                <div class="service-card reveal delay-3">
-                    <div class="img-wrapper">
-                        <img src="images/com-trung.jpg" alt="Cơm Trung" class="service-img" onerror="this.src='https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
-                    </div>
-                    <div class="service-content">
-                        <div class="price-tag">50k - 60k</div>
-                        <h3>CƠM TRUNG CAO CẤP<br><small style="color:#888;">中餐</small></h3>
-                        <ul>
-                            <li>1 món chính (道大荤)</li>
-                            <li>1 món phụ (道小荤)</li>
-                            <li>1 món rau (道蔬菜)</li>
-                            <li>Cơm trắng & Nửa quả trứng</li>
-                        </ul>
-                        <div class="note"><i class="fa-solid fa-mug-hot" style="color: var(--primary-color);"></i> Suất 60.000đ có thêm phần canh.</div>
-                    </div>
-                </div>
+        <div class="service-grid">
+          <!-- Cơm Việt -->
+          <div class="service-card reveal delay-1">
+            <div class="img-wrapper">
+              <img
+                src="images/com-viet.jpg"
+                alt="Cơm Việt"
+                class="service-img"
+                onerror="
+                  this.src =
+                    'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+                "
+              />
             </div>
+            <div class="service-content">
+              <div class="price-tag">25k - 30k</div>
+              <h3>
+                CƠM VIỆT & CHAY<br /><small style="color: #888"
+                  >越餐 / 素餐</small
+                >
+              </h3>
+              <ul>
+                <li>1 món chính (道主菜)</li>
+                <li>1 món phụ (道配菜)</li>
+                <li>1 món rau (道蔬菜)</li>
+                <li>Cơm trắng & 1 phần canh</li>
+              </ul>
+              <div class="note">
+                <i
+                  class="fa-solid fa-gift"
+                  style="color: var(--primary-color)"
+                ></i>
+                Suất 30.000đ kèm sữa/trái cây.
+              </div>
+            </div>
+          </div>
+
+          <!-- Món Nước -->
+          <div class="service-card reveal delay-2">
+            <div class="img-wrapper">
+              <img
+                src="images/mon-nuoc.jpg"
+                alt="Món Nước"
+                class="service-img"
+                onerror="
+                  this.src =
+                    'https://images.unsplash.com/photo-1555126634-323283e090f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+                "
+              />
+            </div>
+            <div class="service-content">
+              <div class="price-tag">25.000đ</div>
+              <h3>MÓN NƯỚC<br /><small style="color: #888">汤粉</small></h3>
+              <ul>
+                <li>Hủ tiếu xương / chay</li>
+                <li>Bún mọc / măng gà / Thái</li>
+                <li>Phở gà / Nui / Bánh canh</li>
+                <li>Bún thịt xào / Bún chay</li>
+              </ul>
+              <div class="note">
+                <i
+                  class="fa-solid fa-circle-info"
+                  style="color: var(--primary-color)"
+                ></i>
+                Có thể đổi: 1 bịch sữa + 1 ly mì.
+              </div>
+            </div>
+          </div>
+
+          <!-- Cơm Trung -->
+          <div class="service-card reveal delay-3">
+            <div class="img-wrapper">
+              <img
+                src="images/com-trung.jpg"
+                alt="Cơm Trung"
+                class="service-img"
+                onerror="
+                  this.src =
+                    'https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+                "
+              />
+            </div>
+            <div class="service-content">
+              <div class="price-tag">50k - 60k</div>
+              <h3>
+                CƠM TRUNG CAO CẤP<br /><small style="color: #888">中餐</small>
+              </h3>
+              <ul>
+                <li>1 món chính (道大荤)</li>
+                <li>1 món phụ (道小荤)</li>
+                <li>1 món rau (道蔬菜)</li>
+                <li>Cơm trắng & Nửa quả trứng</li>
+              </ul>
+              <div class="note">
+                <i
+                  class="fa-solid fa-mug-hot"
+                  style="color: var(--primary-color)"
+                ></i>
+                Suất 60.000đ có thêm phần canh.
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- THƯ VIỆN HÌNH ẢNH THỰC TẾ -->
     <section id="food-gallery" class="food-gallery">
-        <div class="container">
-            <h2 class="section-title reveal">Hình Ảnh Thực Tế</h2>
-            <p style="text-align: center; color: #666; margin-bottom: 30px;">(Bấm vào bất kỳ ảnh nào để phóng to xem chi tiết)</p>
-            
-            <!-- Mục 1: Cơm Mặn -->
-            <h3 class="category-title reveal"><i class="fa-solid fa-bowl-rice"></i> Cơm Mặn</h3>
-            <div class="food-grid">
-                <script>
-                    for(let i=1; i<=8; i++) {
-                        let delay = (i % 3) + 1;
-                        document.write(`<div class="food-item reveal delay-${delay}"><img src="images/com-man-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Com+Man+${i}'"></div>`);
-                    }
-                </script>
-            </div>
+      <div class="container">
+        <h2 class="section-title reveal">Hình Ảnh Thực Tế</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px">
+          (Bấm vào bất kỳ ảnh nào để phóng to xem chi tiết)
+        </p>
 
-            <!-- Mục 2: Cơm Chay -->
-            <h3 class="category-title reveal" style="margin-top: 60px;"><i class="fa-solid fa-leaf"></i> Cơm Chay</h3>
-            <div class="food-grid">
-                <script>
-                    for(let i=1; i<=6; i++) {
-                        let delay = (i % 3) + 1;
-                        document.write(`<div class="food-item reveal delay-${delay}"><img src="images/com-chay-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Com+Chay+${i}'"></div>`);
-                    }
-                </script>
-            </div>
-
-            <!-- Mục 3: Món Mặn -->
-            <h3 class="category-title reveal" style="margin-top: 60px;"><i class="fa-solid fa-drumstick-bite"></i> Món Mặn</h3>
-            <div class="food-grid">
-                <script>
-                    for(let i=1; i<=6; i++) {
-                        let delay = (i % 3) + 1;
-                        document.write(`<div class="food-item reveal delay-${delay}"><img src="images/mon-man-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Mon+Man+${i}'"></div>`);
-                    }
-                </script>
-            </div>
-
-            <!-- Mục 4: Món Khô -->
-            <h3 class="category-title reveal" style="margin-top: 60px;"><i class="fa-solid fa-fish"></i> Món Khô</h3>
-            <div class="food-grid">
-                <script>
-                    for(let i=1; i<=3; i++) {
-                        let delay = (i % 3) + 1;
-                        document.write(`<div class="food-item reveal delay-${delay}"><img src="images/mon-kho-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Mon+Kho+${i}'"></div>`);
-                    }
-                </script>
-            </div>
-
-            <!-- Mục 5: Món Nước -->
-            <h3 class="category-title reveal" style="margin-top: 60px;"><i class="fa-solid fa-bowl-food"></i> Món Nước</h3>
-            <div class="food-grid">
-                <script>
-                    for(let i=1; i<=14; i++) {
-                        let delay = (i % 3) + 1;
-                        document.write(`<div class="food-item reveal delay-${delay}"><img src="images/mon-nuoc-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Mon+Nuoc+${i}'"></div>`);
-                    }
-                </script>
-            </div>
-
-            <!-- Mục 6: Quy Trình Hoạt Động -->
-            <h3 class="category-title reveal" style="margin-top: 60px;"><i class="fa-solid fa-gears"></i> Quy Trình Hoạt Động (Sơ chế, Chế biến, Đóng gói)</h3>
-            <div class="food-grid">
-                <script>
-                    for(let i=1; i<=2; i++) { document.write(`<div class="food-item reveal delay-${i}"><img src="images/so-che-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=So+Che+${i}'"></div>`); }
-                    for(let i=1; i<=2; i++) { document.write(`<div class="food-item reveal delay-${i+1}"><img src="images/day-chuyen-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Day+Chuyen+${i}'"></div>`); }
-                    for(let i=1; i<=5; i++) { let d=(i%3)+1; document.write(`<div class="food-item reveal delay-${d}"><img src="images/dong-goi-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Dong+Goi+${i}'"></div>`); }
-                </script>
-            </div>
-
+        <!-- Mục 1: Cơm Mặn -->
+        <h3 class="category-title reveal">
+          <i class="fa-solid fa-bowl-rice"></i> Cơm Mặn
+        </h3>
+        <div class="food-grid">
+          <script>
+            for (let i = 1; i <= 8; i++) {
+              let delay = (i % 3) + 1;
+              document.write(
+                `<div class="food-item reveal delay-${delay}"><img src="images/com-man-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Com+Man+${i}'"></div>`,
+              );
+            }
+          </script>
         </div>
+
+        <!-- Mục 2: Cơm Chay -->
+        <h3 class="category-title reveal" style="margin-top: 60px">
+          <i class="fa-solid fa-leaf"></i> Cơm Chay
+        </h3>
+        <div class="food-grid">
+          <script>
+            for (let i = 1; i <= 6; i++) {
+              let delay = (i % 3) + 1;
+              document.write(
+                `<div class="food-item reveal delay-${delay}"><img src="images/com-chay-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Com+Chay+${i}'"></div>`,
+              );
+            }
+          </script>
+        </div>
+
+        <!-- Mục 3: Món Mặn -->
+        <h3 class="category-title reveal" style="margin-top: 60px">
+          <i class="fa-solid fa-drumstick-bite"></i> Món Mặn
+        </h3>
+        <div class="food-grid">
+          <script>
+            for (let i = 1; i <= 6; i++) {
+              let delay = (i % 3) + 1;
+              document.write(
+                `<div class="food-item reveal delay-${delay}"><img src="images/mon-man-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Mon+Man+${i}'"></div>`,
+              );
+            }
+          </script>
+        </div>
+
+        <!-- Mục 4: Món Khô -->
+        <h3 class="category-title reveal" style="margin-top: 60px">
+          <i class="fa-solid fa-fish"></i> Món Khô
+        </h3>
+        <div class="food-grid">
+          <script>
+            for (let i = 1; i <= 3; i++) {
+              let delay = (i % 3) + 1;
+              document.write(
+                `<div class="food-item reveal delay-${delay}"><img src="images/mon-kho-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Mon+Kho+${i}'"></div>`,
+              );
+            }
+          </script>
+        </div>
+
+        <!-- Mục 5: Món Nước -->
+        <h3 class="category-title reveal" style="margin-top: 60px">
+          <i class="fa-solid fa-bowl-food"></i> Món Nước
+        </h3>
+        <div class="food-grid">
+          <script>
+            for (let i = 1; i <= 14; i++) {
+              let delay = (i % 3) + 1;
+              document.write(
+                `<div class="food-item reveal delay-${delay}"><img src="images/mon-nuoc-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Mon+Nuoc+${i}'"></div>`,
+              );
+            }
+          </script>
+        </div>
+
+        <!-- Mục 6: Quy Trình Hoạt Động -->
+        <h3 class="category-title reveal" style="margin-top: 60px">
+          <i class="fa-solid fa-gears"></i> Quy Trình Hoạt Động (Sơ chế, Chế
+          biến, Đóng gói)
+        </h3>
+        <div class="food-grid">
+          <script>
+            for (let i = 1; i <= 2; i++) {
+              document.write(
+                `<div class="food-item reveal delay-${i}"><img src="images/so-che-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=So+Che+${i}'"></div>`,
+              );
+            }
+            for (let i = 1; i <= 2; i++) {
+              document.write(
+                `<div class="food-item reveal delay-${i + 1}"><img src="images/day-chuyen-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Day+Chuyen+${i}'"></div>`,
+              );
+            }
+            for (let i = 1; i <= 5; i++) {
+              let d = (i % 3) + 1;
+              document.write(
+                `<div class="food-item reveal delay-${d}"><img src="images/dong-goi-${i}.jpg" onerror="this.src='https://via.placeholder.com/600x400/eeeeee/aaaaaa?text=Dong+Goi+${i}'"></div>`,
+              );
+            }
+          </script>
+        </div>
+      </div>
     </section>
 
     <!-- VIDEO DỌC -->
     <section id="vertical-videos" class="vertical-videos">
-        <div class="container">
-            <h2 class="section-title reveal">Video Thực Tế</h2>
-            <div class="video-grid">
-                
-                <div class="video-item reveal delay-1">
-                    <h3><i class="fa-solid fa-fire-burner"></i> Khâu Chế Biến</h3>
-                    <video controls playsinline preload="metadata" muted>
-                        <source src="videos/che-bien.mp4" type="video/mp4">
-                        Trình duyệt không hỗ trợ video.
-                    </video>
-                </div>
+      <div class="container">
+        <h2 class="section-title reveal">Video Thực Tế</h2>
+        <div class="video-grid">
+          <div class="video-item reveal delay-1">
+            <h3><i class="fa-solid fa-fire-burner"></i> Khâu Chế Biến</h3>
+            <video controls playsinline preload="metadata" muted>
+              <source src="videos/che-bien.mp4" type="video/mp4" />
+              Trình duyệt không hỗ trợ video.
+            </video>
+          </div>
 
-                <div class="video-item reveal delay-2">
-                    <h3><i class="fa-solid fa-box-open"></i> Khâu Đóng Gói</h3>
-                    <video controls playsinline preload="metadata" muted>
-                        <source src="videos/dong-goi.mp4" type="video/mp4">
-                        Trình duyệt không hỗ trợ video.
-                    </video>
-                </div>
+          <div class="video-item reveal delay-2">
+            <h3><i class="fa-solid fa-box-open"></i> Khâu Đóng Gói</h3>
+            <video controls playsinline preload="metadata" muted>
+              <source src="videos/dong-goi.mp4" type="video/mp4" />
+              Trình duyệt không hỗ trợ video.
+            </video>
+          </div>
 
-                <div class="video-item reveal delay-3">
-                    <h3><i class="fa-solid fa-utensils"></i> Thành Phẩm</h3>
-                    <video controls playsinline preload="metadata" muted>
-                        <source src="videos/thanh-pham.mp4" type="video/mp4">
-                        Trình duyệt không hỗ trợ video.
-                    </video>
-                </div>
-
-            </div>
+          <div class="video-item reveal delay-3">
+            <h3><i class="fa-solid fa-utensils"></i> Thành Phẩm</h3>
+            <video controls playsinline preload="metadata" muted>
+              <source src="videos/thanh-pham.mp4" type="video/mp4" />
+              Trình duyệt không hỗ trợ video.
+            </video>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Stats Section -->
     <section class="stats">
-        <div class="stats-grid reveal">
-            <div class="stat-item">
-                <h2 class="counter" data-target="1500">0</h2>
-                <p>Năng lực (Suất/Lần)</p>
-            </div>
-            <div class="stat-item">
-                <h2 class="counter" data-target="100">0</h2>
-                <p>% Đạt chuẩn nguyên liệu</p>
-            </div>
-            <div class="stat-item">
-                <h2><i class="fa-solid fa-certificate fa-beat-fade" style="font-size: 3rem; margin-bottom: 5px; color: #ffeb3b;"></i></h2>
-                <p>Chứng nhận VSATTP</p>
-            </div>
+      <div class="stats-grid reveal">
+        <div class="stat-item">
+          <h2 class="counter" data-target="5000">0</h2>
+          <p>Năng lực (Suất/Lần)</p>
         </div>
+        <div class="stat-item">
+          <h2 class="counter" data-target="100">0</h2>
+          <p>% Đạt chuẩn nguyên liệu</p>
+        </div>
+        <div class="stat-item">
+          <h2>
+            <i
+              class="fa-solid fa-certificate fa-beat-fade"
+              style="font-size: 3rem; margin-bottom: 5px; color: #ffeb3b"
+            ></i>
+          </h2>
+          <p>Chứng nhận VSATTP</p>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer id="contact">
-        <div class="footer-grid">
-            <div class="footer-col reveal delay-1">
-                <h3>VIỆT BẾP VN</h3>
-                <p style="color: #fff; font-weight: bold;">CÔNG TY TNHH VIỆT BẾP VN</p>
-                <p style="color: #fff;">越南越厨有限公司</p>
-                <p style="margin-top: 15px;">Chuyên cung cấp suất ăn công nghiệp An toàn - Uy tín.</p>
-            </div>
-            <div class="footer-col reveal delay-2">
-                <h3>Liên Hệ</h3>
-                <p><i class="fa-solid fa-location-dot"></i> Lô số 22, đường số 5, KCN Tân Đức, Xã Đức Hoà, Tỉnh Tây Ninh</p>
-                <p><i class="fa-solid fa-phone"></i> Hotline: 0825 058 557 - 0329 984 773</p>
-                <p><i class="fa-solid fa-user-tie"></i> Đại diện: Nguyễn Hữu Trà My</p>
-            </div>
+      <div class="footer-grid">
+        <div class="footer-col reveal delay-1">
+          <h3>VIỆT BẾP VN</h3>
+          <p style="color: #fff; font-weight: bold">CÔNG TY TNHH VIỆT BẾP VN</p>
+          <p style="color: #fff">越南越厨有限公司</p>
+          <p style="margin-top: 15px">
+            Chuyên cung cấp suất ăn công nghiệp An toàn - Uy tín.
+          </p>
         </div>
-        <div class="copyright">
-            <p>&copy; 2024 CÔNG TY TNHH VIỆT BẾP VN.</p>
+        <div class="footer-col reveal delay-2">
+          <h3>Liên Hệ</h3>
+          <p>
+            <i class="fa-solid fa-location-dot"></i> Lô số 22, đường số 5, KCN
+            Tân Đức, Xã Đức Hoà, Tỉnh Tây Ninh
+          </p>
+          <p>
+            <i class="fa-solid fa-phone"></i> Hotline: 0825 058 557 - 0329 984
+            773
+          </p>
+          <p>
+            <i class="fa-solid fa-user-tie"></i> Đại diện: Nguyễn Hữu Trà My
+          </p>
         </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2024 CÔNG TY TNHH VIỆT BẾP VN.</p>
+      </div>
     </footer>
 
     <!-- JAVASCRIPT -->
     <script>
-        // 1. Preloader
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => { preloader.style.display = 'none'; }, 600); }, 500);
-        });
+      // 1. Preloader
+      window.addEventListener("load", () => {
+        const preloader = document.getElementById("preloader");
+        setTimeout(() => {
+          preloader.style.opacity = "0";
+          setTimeout(() => {
+            preloader.style.display = "none";
+          }, 600);
+        }, 500);
+      });
 
-        // 2. Scroll Progress
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            document.getElementById("scroll-progress").style.width = (winScroll / height) * 100 + "%";
-        });
+      // 2. Scroll Progress
+      window.addEventListener("scroll", () => {
+        const winScroll =
+          document.body.scrollTop || document.documentElement.scrollTop;
+        const height =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        document.getElementById("scroll-progress").style.width =
+          (winScroll / height) * 100 + "%";
+      });
 
-        // 3. Header & Reveal
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                if (reveals[i].getBoundingClientRect().top < windowHeight - 80) { reveals[i].classList.add("active"); }
-            }
+      // 3. Header & Reveal
+      function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+          var windowHeight = window.innerHeight;
+          if (reveals[i].getBoundingClientRect().top < windowHeight - 80) {
+            reveals[i].classList.add("active");
+          }
         }
-        window.addEventListener("scroll", reveal);
-        reveal();
-        
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if(window.scrollY > 50) { header.style.padding = "5px 20px"; header.style.boxShadow = "0 5px 20px rgba(0,0,0,0.15)"; } 
-            else { header.style.padding = "10px 20px"; header.style.boxShadow = "0 2px 15px rgba(0,0,0,0.1)"; }
+      }
+      window.addEventListener("scroll", reveal);
+      reveal();
+
+      window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.style.padding = "5px 20px";
+          header.style.boxShadow = "0 5px 20px rgba(0,0,0,0.15)";
+        } else {
+          header.style.padding = "10px 20px";
+          header.style.boxShadow = "0 2px 15px rgba(0,0,0,0.1)";
+        }
+      });
+
+      // 4. Counter
+      const statsSection = document.querySelector(".stats");
+      const counters = document.querySelectorAll(".counter");
+      let hasCounted = false;
+      window.addEventListener("scroll", () => {
+        if (hasCounted) return;
+        if (
+          statsSection.getBoundingClientRect().top <
+          window.innerHeight - 100
+        ) {
+          hasCounted = true;
+          counters.forEach((counter) => {
+            const target = +counter.getAttribute("data-target");
+            const updateCount = () => {
+              const count = +counter.innerText;
+              const inc = target / 50;
+              if (count < target) {
+                counter.innerText = Math.ceil(count + inc);
+                setTimeout(updateCount, 30);
+              } else {
+                counter.innerText = target + (target === 100 ? "%" : "+");
+              }
+            };
+            updateCount();
+          });
+        }
+      });
+
+      // 5. LIGHTBOX MODAL
+      const lightbox = document.createElement("div");
+      lightbox.className = "lightbox";
+      lightbox.innerHTML =
+        '<span class="lightbox-close"><i class="fa-solid fa-xmark"></i></span><img src="" alt="Zoomed Image">';
+      document.body.appendChild(lightbox);
+
+      const lightboxImg = lightbox.querySelector("img");
+      const lightboxClose = lightbox.querySelector(".lightbox-close");
+
+      document.querySelectorAll(".food-item img").forEach((img) => {
+        img.parentElement.addEventListener("click", () => {
+          lightboxImg.src = img.src;
+          lightbox.classList.add("active");
         });
+      });
 
-        // 4. Counter 
-        const statsSection = document.querySelector('.stats');
-        const counters = document.querySelectorAll('.counter');
-        let hasCounted = false; 
-        window.addEventListener('scroll', () => {
-            if (hasCounted) return; 
-            if (statsSection.getBoundingClientRect().top < window.innerHeight - 100) {
-                hasCounted = true; 
-                counters.forEach(counter => {
-                    const target = +counter.getAttribute('data-target');
-                    const updateCount = () => {
-                        const count = +counter.innerText;
-                        const inc = target / 50; 
-                        if (count < target) {
-                            counter.innerText = Math.ceil(count + inc);
-                            setTimeout(updateCount, 30); 
-                        } else { counter.innerText = target + (target === 100 ? '%' : '+'); }
-                    };
-                    updateCount();
-                });
-            }
+      lightboxClose.addEventListener("click", () =>
+        lightbox.classList.remove("active"),
+      );
+      lightbox.addEventListener("click", (e) => {
+        if (e.target !== lightboxImg) lightbox.classList.remove("active");
+      });
+
+      // 6. CHẠY VIDEO TUẦN TỰ KHI CUỘN TỚI
+      const videoSection = document.getElementById("vertical-videos");
+      const videos = videoSection.querySelectorAll("video");
+      let isVideoSequenceStarted = false;
+
+      // Đảm bảo nếu khách tự bấm 1 video, các video khác sẽ dừng để âm thanh không chồng chéo
+      videos.forEach((v, index) => {
+        v.addEventListener("play", () => {
+          videos.forEach((other, j) => {
+            if (index !== j) other.pause();
+          });
         });
+      });
 
-        // 5. LIGHTBOX MODAL
-        const lightbox = document.createElement('div');
-        lightbox.className = 'lightbox';
-        lightbox.innerHTML = '<span class="lightbox-close"><i class="fa-solid fa-xmark"></i></span><img src="" alt="Zoomed Image">';
-        document.body.appendChild(lightbox);
-        
-        const lightboxImg = lightbox.querySelector('img');
-        const lightboxClose = lightbox.querySelector('.lightbox-close');
+      // Quan sát xem khi nào khu vực video lọt vào khung hình người dùng
+      const videoObserver = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && !isVideoSequenceStarted) {
+            isVideoSequenceStarted = true; // Đánh dấu là đã bắt đầu chạy
 
-        document.querySelectorAll('.food-item img').forEach(img => {
-            img.parentElement.addEventListener('click', () => {
-                lightboxImg.src = img.src;
-                lightbox.classList.add('active');
-            });
-        });
-
-        lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
-        lightbox.addEventListener('click', (e) => {
-            if(e.target !== lightboxImg) lightbox.classList.remove('active');
-        });
-
-        // 6. CHẠY VIDEO TUẦN TỰ KHI CUỘN TỚI
-        const videoSection = document.getElementById('vertical-videos');
-        const videos = videoSection.querySelectorAll('video');
-        let isVideoSequenceStarted = false;
-
-        // Đảm bảo nếu khách tự bấm 1 video, các video khác sẽ dừng để âm thanh không chồng chéo
-        videos.forEach((v, index) => {
-            v.addEventListener('play', () => {
-                videos.forEach((other, j) => {
-                    if (index !== j) other.pause();
-                });
-            });
-        });
-
-        // Quan sát xem khi nào khu vực video lọt vào khung hình người dùng
-        const videoObserver = new IntersectionObserver((entries) => {
-            if(entries[0].isIntersecting && !isVideoSequenceStarted) {
-                isVideoSequenceStarted = true; // Đánh dấu là đã bắt đầu chạy
-                
-                // Hàm phát video theo thứ tự
-                function playSequence(index) {
-                    // Nếu đã hết video cuối cùng (số 3), vòng lại video đầu tiên (số 1)
-                    if(index >= videos.length) {
-                        playSequence(0); 
-                        return;
-                    }
-                    
-                    let currentVid = videos[index];
-                    currentVid.muted = true; // Cần tắt tiếng thì trình duyệt web mới cho phép tự phát
-                    currentVid.currentTime = 0; // Chạy lại từ đầu
-                    
-                    // Lệnh chạy video
-                    currentVid.play().catch(e => console.log("Lỗi tự phát video: ", e));
-                    
-                    // Khi video này kết thúc, gọi tiếp video kế tiếp
-                    currentVid.onended = () => {
-                        playSequence(index + 1);
-                    };
-                }
-                
-                // Khởi động phát video 1 (vị trí 0)
+            // Hàm phát video theo thứ tự
+            function playSequence(index) {
+              // Nếu đã hết video cuối cùng (số 3), vòng lại video đầu tiên (số 1)
+              if (index >= videos.length) {
                 playSequence(0);
-            }
-        }, { threshold: 0.4 }); // Chỉ kích hoạt khi 40% khu vực video lọt vào màn hình
+                return;
+              }
 
-        // Kích hoạt theo dõi
-        if(videoSection && videos.length > 0) {
-            videoObserver.observe(videoSection);
-        }
+              let currentVid = videos[index];
+              currentVid.muted = true; // Cần tắt tiếng thì trình duyệt web mới cho phép tự phát
+              currentVid.currentTime = 0; // Chạy lại từ đầu
+
+              // Lệnh chạy video
+              currentVid
+                .play()
+                .catch((e) => console.log("Lỗi tự phát video: ", e));
+
+              // Khi video này kết thúc, gọi tiếp video kế tiếp
+              currentVid.onended = () => {
+                playSequence(index + 1);
+              };
+            }
+
+            // Khởi động phát video 1 (vị trí 0)
+            playSequence(0);
+          }
+        },
+        { threshold: 0.4 },
+      ); // Chỉ kích hoạt khi 40% khu vực video lọt vào màn hình
+
+      // Kích hoạt theo dõi
+      if (videoSection && videos.length > 0) {
+        videoObserver.observe(videoSection);
+      }
     </script>
-</body>
+  </body>
 </html>
